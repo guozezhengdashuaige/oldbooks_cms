@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cuilan.oldbooks.dao.DemoMapper">
+
+	<resultMap type="cn.cuilan.oldbooks.domain.Demo" id="demo">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+	</resultMap>
+
+	<!-- 插入后返回id -->
+	<insert id="add" parameterType="Demo" keyColumn="id"
+		keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO demo (`name`) VALUES
+		(#{name})
+	</insert>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="Demo">
+		DELETE FROM demo d WHERE d.`id` =
+		#{id}
+		<if test="name != null">
+			AND d.`name` = #{name}
+		</if>
+	</delete>
+
+	<!-- 修改 -->
+	<update id="update" parameterType="Demo">
+		UPDATE demo d SET d.`name` =
+		#{name} WHERE d.`id` = #{id}
+	</update>
+
+	<!-- 查询 -->
+	<select id="getDemo" parameterType="Demo" resultMap="demo">
+		SELECT
+		d.`id`,
+		d.`name`
+		FROM
+		demo AS d
+		WHERE
+		1 = 1
+		<if test="id > 0">
+			AND
+			d.`id` = #{id}
+		</if>
+		<if test="name != null">
+			AND
+			d.`name` = #{name}
+		</if>
+	</select>
+
+</mapper>
